@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "target": "esnext",
+    "module": "NodeNext",
+    "rewriteRelativeImportExtensions": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "allowImportingTsExtensions": true,
+    "types": ["vitest/globals", "node"],
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "*": ["./*"],
+      "@/*": ["./src/*"]
+    }
+  }
+}

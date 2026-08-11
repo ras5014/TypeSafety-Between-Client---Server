@@ -25,5 +25,5 @@ export const deleteTask = (req: Request, res: Response) => {
     return;
   }
   tasks.splice(taskIndex, 1);
-  res.status(204).send();
+  res.status(200).json({ success: true });
 };

@@ -1,8 +1,8 @@
-import type { Task } from "../types/task";
+import type { Task } from "@task-app/contracts";
 
 interface TaskListProps {
-  tasks: Task[];
-  onDelete: (id: number) => void;
+  readonly tasks: Task[];
+  readonly onDelete: (id: number) => void;
 }
 
 export default function TaskList({ tasks, onDelete }: TaskListProps) {

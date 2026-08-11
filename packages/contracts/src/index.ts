@@ -1,2 +1,16 @@
-export { TaskSchema, CreateTaskSchema, DeleteTaskSchema } from "./tasks.ts";
-export type { Task, CreateTaskInput, DeleteTaskInput } from "./tasks.ts";
+export {
+  TaskSchema,
+  CreateTaskSchema,
+  DeleteTaskSchema,
+  TaskResponseSchema,
+  CreateTaskResponseSchema,
+  DeleteTaskResponseSchema,
+} from "./tasks.ts";
+export type {
+  Task,
+  CreateTaskInput,
+  DeleteTaskInput,
+  TaskResponse,
+  CreateTaskResponse,
+  DeleteTaskResponse,
+} from "./tasks.ts";

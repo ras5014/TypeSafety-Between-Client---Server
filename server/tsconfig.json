@@ -7,7 +7,7 @@
     "erasableSyntaxOnly": true,
     "verbatimModuleSyntax": true,
     "allowImportingTsExtensions": true,
-    "types": ["vitest/globals", "node"],
+    "types": ["node"],
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {

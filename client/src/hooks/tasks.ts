@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { Task } from "../types/task.ts";
+import type { Task } from "@task-app/contracts";
 import { getTasks, deleteTask, addTask } from "../api/tasks.ts";
 
 export const useGetTasks = () => {

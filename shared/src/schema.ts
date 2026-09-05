@@ -7,16 +7,14 @@ export const TodoSchema = z.object({
   isCompleted: z.boolean(),
 });
 
-export const CreateTodoSchema = TodoSchema.omit({ id: true });
+export const CreateTodoSchema = TodoSchema.omit({
+  id: true,
+  isCompleted: true,
+});
 
 export const UpdateTodoSchema = TodoSchema.partial().omit({ id: true });
-
-export const TodoListResponseSchema = z.object({
-  todos: z.array(TodoSchema),
-});
 
 // Types
 export type Todo = z.infer<typeof TodoSchema>;
 export type CreateTodoInput = z.infer<typeof CreateTodoSchema>;
 export type UpdateTodoInput = z.infer<typeof UpdateTodoSchema>;
-export type TodoListResponse = z.infer<typeof TodoListResponseSchema>;

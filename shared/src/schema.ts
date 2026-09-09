@@ -14,7 +14,10 @@ export const CreateTodoSchema = TodoSchema.omit({
 
 export const UpdateTodoSchema = TodoSchema.partial().omit({ id: true });
 
+export const TodoParamsSchema = z.object({ id: z.string() });
+
 // Types
 export type Todo = z.infer<typeof TodoSchema>;
 export type CreateTodoInput = z.infer<typeof CreateTodoSchema>;
 export type UpdateTodoInput = z.infer<typeof UpdateTodoSchema>;
+export type TodoParams = z.infer<typeof TodoParamsSchema>;

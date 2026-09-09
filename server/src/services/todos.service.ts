@@ -35,4 +35,12 @@ export const todosService = {
 
     return toTodo(row);
   },
+
+  delete: async (id: string): Promise<boolean> => {
+    const row = await db
+      .delete(todosTable)
+      .where(eq(todosTable.id, id))
+      .returning();
+    return row.length > 0;
+  },
 };

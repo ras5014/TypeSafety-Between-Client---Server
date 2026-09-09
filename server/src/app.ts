@@ -7,6 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: "*" }));
 app.use(helmet());
+import { errorHandler, notFound } from "./middlewares/errorHandler";
 
 const logger = pino();
 
@@ -15,5 +16,9 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use("/api/todos", (await import("./routes/todos.route")).todosRouter);
+
+// Middlewares for handling error
+app.use(notFound);
+app.use(errorHandler);
 
 export { app, logger };

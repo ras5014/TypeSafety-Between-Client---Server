@@ -7,9 +7,12 @@ export default function TodoList() {
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error loading todos.</p>}
       {todos && (
-        <ul>
+        <ul style={{ listStyle: "none", padding: 0 }}>
           {todos.map((todo) => (
-            <li key={todo.id}>{todo.title}</li>
+            <li key={todo.id}>
+              <input type="checkbox" />
+              {todo.title}
+            </li>
           ))}
         </ul>
       )}

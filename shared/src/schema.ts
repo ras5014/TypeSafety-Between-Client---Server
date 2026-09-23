@@ -1,23 +1,30 @@
 import { z } from "zod";
 
-// Zod Schemas
-export const TodoSchema = z.object({
-  id: z.string(),
+// Todo Schema
+export const todoSchema = z.object({
+  id: z.uuid(),
   title: z.string().min(1, "Title must be at least 1 character long"),
   isCompleted: z.boolean(),
 });
 
-export const CreateTodoSchema = TodoSchema.omit({
+export type Todo = z.infer<typeof todoSchema>;
+
+// Create Todo Schema
+export const createTodoSchema = todoSchema.omit({
   id: true,
   isCompleted: true,
 });
 
-export const UpdateTodoSchema = TodoSchema.partial().omit({ id: true });
+export type CreateTodo = z.infer<typeof createTodoSchema>;
 
-export const TodoParamsSchema = z.object({ id: z.string() });
+// Update Todo Schema
+export const updateTodoSchema = z.object({
+  id: z.uuid(),
+  title: z
+    .string()
+    .min(1, "Title must be at least 1 character long")
+    .optional(),
+  isCompleted: z.boolean().optional(),
+});
 
-// Types
-export type Todo = z.infer<typeof TodoSchema>;
-export type CreateTodoInput = z.infer<typeof CreateTodoSchema>;
-export type UpdateTodoInput = z.infer<typeof UpdateTodoSchema>;
-export type TodoParams = z.infer<typeof TodoParamsSchema>;
+export type UpdateTodo = z.infer<typeof updateTodoSchema>;

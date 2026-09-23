@@ -1,46 +1,58 @@
 import { todosTable } from "../db/schema";
-import { Todo, CreateTodoInput, UpdateTodoInput } from "shared";
+import { CreateTodo, todoSchema, Todo, UpdateTodo } from "shared";
 import { db } from "../db/connection";
 import { eq } from "drizzle-orm";
 
-function toTodo(row: typeof todosTable.$inferSelect): Todo {
-  return {
-    id: row.id,
-    title: row.title,
-    isCompleted: row.isCompleted,
-  };
-}
+export const getAll = async (): Promise<Todo[]> => {
+  const rows = await db.select().from(todosTable);
+  // Ensuring response conforms to the Todo schema
+  const result = rows.map((row) => todoSchema.parse(row));
+  return result;
+};
 
-export const todosService = {
-  getAll: async (): Promise<Todo[]> => {
-    const rows = await db.select().from(todosTable);
-    return rows.map(toTodo);
-  },
+// We may find or not find a todo by its ID
+export const getTodoById = async (id: string): Promise<Todo | null> => {
+  const [row] = await db.select().from(todosTable).where(eq(todosTable.id, id));
+  if (!row) {
+    return null;
+  }
+  const result = todoSchema.parse(row);
+  return result;
+};
 
-  getById: async (id: string): Promise<Todo | undefined> => {
-    const [row] = await db
-      .select()
-      .from(todosTable)
-      .where(eq(todosTable.id, id));
+export const createTodo = async (input: CreateTodo): Promise<Todo> => {
+  const { title } = input;
+  const [row] = await db
+    .insert(todosTable)
+    .values({ title: title })
+    .returning();
 
-    return row ? toTodo(row) : undefined;
-  },
+  const result = todoSchema.parse(row);
+  return result;
+};
 
-  create: async (input: CreateTodoInput): Promise<Todo> => {
-    const { title } = input;
-    const [row] = await db
-      .insert(todosTable)
-      .values({ title: title })
-      .returning();
+export const updateTodo = async (input: UpdateTodo): Promise<Todo | null> => {
+  const { id, title, isCompleted } = input;
+  const [row] = await db
+    .update(todosTable)
+    .set({ title, isCompleted })
+    .where(eq(todosTable.id, id))
+    .returning();
+  if (!row) {
+    return null;
+  }
+  const result = todoSchema.parse(row);
+  return result;
+};
 
-    return toTodo(row);
-  },
-
-  delete: async (id: string): Promise<boolean> => {
-    const row = await db
-      .delete(todosTable)
-      .where(eq(todosTable.id, id))
-      .returning();
-    return row.length > 0;
-  },
+export const deleteTodo = async (id: string): Promise<Todo | null> => {
+  const [row] = await db
+    .delete(todosTable)
+    .where(eq(todosTable.id, id))
+    .returning();
+  if (!row) {
+    return null;
+  }
+  const result = todoSchema.parse(row);
+  return result;
 };

@@ -1,23 +1,52 @@
 import { z } from "zod";
 
-// Zod Schemas
-export const TodoSchema = z.object({
-  id: z.string(),
+// Todo Schema
+export const todoSchema = z.object({
+  id: z.uuid(),
   title: z.string().min(1, "Title must be at least 1 character long"),
   isCompleted: z.boolean(),
 });
 
-export const CreateTodoSchema = TodoSchema.omit({
+export type Todo = z.infer<typeof todoSchema>;
+
+// Create Todo Schema
+export const createTodoSchema = todoSchema.omit({
   id: true,
   isCompleted: true,
 });
 
-export const UpdateTodoSchema = TodoSchema.partial().omit({ id: true });
+export type CreateTodo = z.infer<typeof createTodoSchema>;
 
-export const TodoParamsSchema = z.object({ id: z.string() });
+// Update Todo Schema
+// If you make it partial then all fields become optional
+export const updateTodoSchema = todoSchema
+  .omit({
+    id: true,
+  })
+  .partial();
 
-// Types
-export type Todo = z.infer<typeof TodoSchema>;
-export type CreateTodoInput = z.infer<typeof CreateTodoSchema>;
-export type UpdateTodoInput = z.infer<typeof UpdateTodoSchema>;
-export type TodoParams = z.infer<typeof TodoParamsSchema>;
+export type UpdateTodo = z.infer<typeof updateTodoSchema>;
+
+// Todo Params Schema
+export const todoParamsSchema = z.object({
+  id: z.uuid(),
+});
+
+export type TodoParams = z.infer<typeof todoParamsSchema>;
+
+// Todo Response Schema
+export const todosResponseSchema = z.object({
+  status: z.literal("success"),
+  message: z.string(),
+  data: z.array(todoSchema),
+});
+
+export type TodosResponse = z.infer<typeof todosResponseSchema>;
+
+export const todoResponseSchema = z.object({
+  status: z.literal("success"),
+  message: z.string(),
+  data: todoSchema,
+});
+
+export type TodoResponse = z.infer<typeof todoResponseSchema>;

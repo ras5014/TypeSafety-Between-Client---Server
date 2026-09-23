@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { CreateTodoSchema, type CreateTodoInput } from "shared";
+import { createTodoSchema, type CreateTodo } from "shared";
 import { useCreateTodo } from "../../hooks/todos";
 
 export default function AddTodo() {
@@ -9,18 +9,16 @@ export default function AddTodo() {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<CreateTodoInput>({
+  } = useForm<CreateTodo>({
     defaultValues: {
       title: "",
     },
-    resolver: zodResolver(CreateTodoSchema),
+    resolver: zodResolver(createTodoSchema),
   });
 
   const { mutateAsync: createTodo } = useCreateTodo();
 
-  const onSubmit: SubmitHandler<CreateTodoInput> = async (
-    input: CreateTodoInput,
-  ) => {
+  const onSubmit: SubmitHandler<CreateTodo> = async (input: CreateTodo) => {
     await createTodo(input);
     reset();
   };

@@ -1,26 +1,38 @@
 import { Request, Response } from "express";
-import { todosService } from "../services/todos.service";
-import { AppError } from "../middlewares/errorHandler";
+import {
+  createTodo,
+  getAllTodos,
+  getTodoById,
+  updateTodo,
+  deleteTodo,
+} from "../services/todos.service";
+import { successResponse } from "../utils/responses";
 import { TodoParams } from "shared";
 
-export const todosController = {
-  list: async (req: Request, res: Response) => {
-    res.status(200).json({ todos: await todosService.getAll() });
-  },
-  getById: async (req: Request<TodoParams>, res: Response) => {
-    const todo = await todosService.getById(req.params.id);
-    if (!todo) {
-      throw new AppError("Todo not found", 404);
-    }
-    res.status(200).json({ todo });
-  },
-  create: async (req: Request, res: Response) => {
-    res.status(201).json({ todo: await todosService.create(req.body) });
-  },
-  delete: async (req: Request<TodoParams>, res: Response) => {
-    const deleted = await todosService.delete(req.params.id);
-    res
-      .status(200)
-      .json({ message: deleted ? "Deleted successfully" : "Todo not found" });
-  },
+export const getAll = async (req: Request, res: Response) => {
+  const todos = await getAllTodos();
+  successResponse(res, todos, 200, "Todos retrieved successfully");
+};
+
+export const getById = async (req: Request<TodoParams>, res: Response) => {
+  const { id } = req.params;
+  const todo = await getTodoById(id);
+  successResponse(res, todo, 200, "Todo retrieved successfully");
+};
+
+export const create = async (req: Request, res: Response) => {
+  const todo = await createTodo(req.body);
+  successResponse(res, todo, 201, "Todo created successfully");
+};
+
+export const update = async (req: Request<TodoParams>, res: Response) => {
+  const { id } = req.params;
+  const todo = await updateTodo(id, req.body);
+  successResponse(res, todo, 200, "Todo updated successfully");
+};
+
+export const remove = async (req: Request<TodoParams>, res: Response) => {
+  const { id } = req.params;
+  const todo = await deleteTodo(id);
+  successResponse(res, todo, 200, "Todo deleted successfully");
 };

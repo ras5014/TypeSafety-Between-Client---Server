@@ -1,19 +1,23 @@
 import { Router } from "express";
-import { todosController } from "../controllers/todos.controller";
+import {
+  create,
+  getAll,
+  getById,
+  update,
+  remove,
+} from "../controllers/todos.controller";
 import { validateBody, validateParams } from "../middlewares/validation";
-import { CreateTodoSchema, TodoParamsSchema } from "shared";
+import { createTodoSchema, todoParamsSchema, updateTodoSchema } from "shared";
 
 export const todosRouter = Router();
 
-todosRouter.get("/", todosController.list);
-todosRouter.get(
+todosRouter.get("/", getAll);
+todosRouter.get("/:id", validateParams(todoParamsSchema), getById);
+todosRouter.post("/", validateBody(createTodoSchema), create);
+todosRouter.put(
   "/:id",
-  validateParams(TodoParamsSchema),
-  todosController.getById,
+  validateParams(todoParamsSchema),
+  validateBody(updateTodoSchema),
+  update,
 );
-todosRouter.post("/", validateBody(CreateTodoSchema), todosController.create);
-todosRouter.delete(
-  "/:id",
-  validateParams(TodoParamsSchema),
-  todosController.delete,
-);
+todosRouter.delete("/:id", validateParams(todoParamsSchema), remove);

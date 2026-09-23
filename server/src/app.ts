@@ -1,4 +1,5 @@
 import express from "express";
+import { Request, Response } from "express";
 import pino from "pino";
 import cors from "cors";
 import helmet from "helmet";
@@ -11,7 +12,7 @@ import { errorHandler, notFound } from "./middlewares/errorHandler";
 
 const logger = pino();
 
-app.get("/api/health", (req, res) => {
+app.get("/api/health", (req: Request, res: Response) => {
   res.json({ status: "ok" });
 });
 

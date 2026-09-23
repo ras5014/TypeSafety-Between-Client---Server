@@ -36,7 +36,7 @@ export const updateTodo = async (
 };
 
 export const deleteTodo = async (id: string): Promise<TodoResponse> => {
-  const res = await api.delete<TodoResponse>(`/todos/${id}`);
+  const res = await api.delete(`/todos/${id}`);
   todoResponseSchema.parse(res.data);
   return res.data;
 };

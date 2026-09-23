@@ -18,13 +18,11 @@ export const createTodoSchema = todoSchema.omit({
 export type CreateTodo = z.infer<typeof createTodoSchema>;
 
 // Update Todo Schema
-export const updateTodoSchema = z.object({
-  id: z.uuid(),
-  title: z
-    .string()
-    .min(1, "Title must be at least 1 character long")
-    .optional(),
-  isCompleted: z.boolean().optional(),
-});
+// If you make it partial then all fields become optional
+export const updateTodoSchema = todoSchema
+  .omit({
+    id: true,
+  })
+  .partial();
 
 export type UpdateTodo = z.infer<typeof updateTodoSchema>;

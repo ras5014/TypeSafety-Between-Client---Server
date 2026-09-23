@@ -55,8 +55,11 @@ export const createTodo = async (input: CreateTodo): Promise<Todo> => {
  * @param input - The update data, including the todo's ID and the fields to change.
  * @returns A promise that resolves to the updated Todo object, or null if no todo exists with the given ID.
  */
-export const updateTodo = async (input: UpdateTodo): Promise<Todo | null> => {
-  const { id, title, isCompleted } = input;
+export const updateTodo = async (
+  id: string,
+  input: UpdateTodo,
+): Promise<Todo | null> => {
+  const { title, isCompleted } = input;
   const [row] = await db
     .update(todosTable)
     .set({ title, isCompleted })

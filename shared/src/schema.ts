@@ -26,3 +26,10 @@ export const updateTodoSchema = todoSchema
   .partial();
 
 export type UpdateTodo = z.infer<typeof updateTodoSchema>;
+
+// Todo Params Schema
+export const todoParamsSchema = z.object({
+  id: z.uuid(),
+});
+
+export type TodoParams = z.infer<typeof todoParamsSchema>;

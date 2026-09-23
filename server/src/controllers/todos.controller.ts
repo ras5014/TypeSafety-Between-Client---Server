@@ -7,10 +7,7 @@ import {
   deleteTodo,
 } from "../services/todos.service";
 import { successResponse } from "../utils/responses";
-
-type TodoParams = {
-  id: string;
-};
+import { TodoParams } from "shared";
 
 export const getAll = async (res: Response) => {
   const todos = await getAllTodos();

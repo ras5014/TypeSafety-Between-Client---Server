@@ -9,7 +9,7 @@ import {
 import { successResponse } from "../utils/responses";
 import { TodoParams } from "shared";
 
-export const getAll = async (res: Response) => {
+export const getAll = async (req: Request, res: Response) => {
   const todos = await getAllTodos();
   successResponse(res, todos, 200, "Todos retrieved successfully");
 };

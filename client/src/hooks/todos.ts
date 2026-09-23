@@ -1,12 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { todosApi } from "../api/todos";
-import type { CreateTodoInput } from "shared";
+import { getAllTodos, createTodo } from "../api/todos";
+import type { CreateTodo } from "shared";
 import toast from "react-hot-toast";
 
 export function useTodos() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["todos"],
-    queryFn: () => todosApi.list(),
+    queryFn: () => getAllTodos(),
   });
   return { data, isLoading, isError };
 }
@@ -14,7 +14,7 @@ export function useTodos() {
 export function useCreateTodo() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (input: CreateTodoInput) => todosApi.create(input),
+    mutationFn: (input: CreateTodo) => createTodo(input),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
       toast.success("Todo created successfully");

@@ -33,3 +33,20 @@ export const todoParamsSchema = z.object({
 });
 
 export type TodoParams = z.infer<typeof todoParamsSchema>;
+
+// Todo Response Schema
+export const todosResponseSchema = z.object({
+  status: z.literal("success"),
+  message: z.string(),
+  data: z.array(todoSchema),
+});
+
+export type TodosResponse = z.infer<typeof todosResponseSchema>;
+
+export const todoResponseSchema = z.object({
+  status: z.literal("success"),
+  message: z.string(),
+  data: todoSchema,
+});
+
+export type TodoResponse = z.infer<typeof todoResponseSchema>;
